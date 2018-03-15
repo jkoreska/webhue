@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import Header from "components/header";
+import BridgeList from "components/bridge/list";
 
 import "./index.scss";
 
@@ -28,7 +29,9 @@ const HomePage = () =>
       </div>
     </section>
     <section className="HomePage-content section">
-      <div> some content </div>
+      <div className="container">
+        <BridgeList />
+      </div>
     </section>
   </div>;
 

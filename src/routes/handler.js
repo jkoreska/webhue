@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 
 import { actions as configActions } from "store/config";
+import { actions as bridgeActions } from "store/bridge";
 
 import config from "../config";
 
@@ -13,10 +14,10 @@ class RouteHandler extends React.Component {
 
   componentWillMount() {
     this.props.setConfig();
+    this.props.getBridges();
   }
 
   componentWillReceiveProps(props) {
-    // route changed
   }
 
   render() {
@@ -30,6 +31,7 @@ const mapState = state => ({
 
 const mapDispatch = dispatch => ({
   setConfig: () => dispatch(configActions.setConfig(config)),
+  getBridges: () => dispatch(bridgeActions.getBridges()),
 });
 
 export default connect(mapState, mapDispatch)(RouteHandler);

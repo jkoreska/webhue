@@ -15,10 +15,10 @@ const config = {
     test: "src/**/*.test.js",
   },
   mocha: {
-    require: [ "babel-polyfill" ],
-    compilers: "js:babel-register",
+    require: [ "babel-register" ],
     env: { NODE_PATH: "src" },
     reporter: "list",
+    watch: true,
   },
   watch: false,
 };
