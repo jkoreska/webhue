@@ -18,6 +18,21 @@ class RouteHandler extends React.Component {
   }
 
   componentWillReceiveProps(props) {
+    this.bridgeRoute(props);
+  }
+
+  bridgeRoute(props) {
+    const {
+      location: {
+        pathname,
+      },
+      selectBridge,
+    } = props;
+
+    const bridgeMatch =
+      pathname.match(/^\/bridge\/?([\w\-]*)/);
+    if (bridgeMatch && bridgeMatch[1])
+      selectBridge(bridgeMatch[1]);
   }
 
   render() {
@@ -26,12 +41,12 @@ class RouteHandler extends React.Component {
 }
 
 const mapState = state => ({
-  path: state.router.location.pathname,
 });
 
 const mapDispatch = dispatch => ({
   setConfig: () => dispatch(configActions.setConfig(config)),
   getBridges: () => dispatch(bridgeActions.getBridges()),
+  selectBridge: bridgeId => dispatch(bridgeActions.selectBridge(bridgeId)),
 });
 
 export default connect(mapState, mapDispatch)(RouteHandler);

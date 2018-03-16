@@ -59,7 +59,7 @@ class BridgeService {
       .then(items => {
         const status = items[0];
         if (status.error)
-          throw new Error(status.description);
+          throw new Error(status.error.description);
         bridge.user = status.success;
         this._store();
         return bridge.user;
