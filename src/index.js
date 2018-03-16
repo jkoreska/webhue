@@ -22,7 +22,7 @@ import services from "./services";
 import "./scss/index.scss";
 
 import App from "components/app";
-import ErrorPage from "components/error-page";
+import ErrorPage from "components/page/error";
 
 const history = createHistory();
 

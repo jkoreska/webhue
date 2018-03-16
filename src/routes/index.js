@@ -4,8 +4,8 @@ import {
   Switch,
 } from "react-router-dom";
 
-import HomePage from "components/home-page";
-import ErrorPage from "components/error-page";
+import HomePage from "components/page/home";
+import ErrorPage from "components/page/error";
 
 import RouteHandler from "./handler";
 
