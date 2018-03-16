@@ -15,7 +15,7 @@ const selectedId = ({
 const selected = createSelector(
   bridges,
   selectedId,
-  (bridges, id) => bridges.find(bridge => bridge.id === id)
+  (bridges, id) => bridges.find(bridge => bridge && bridge.id === id)
 );
 
 export default {

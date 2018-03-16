@@ -37,11 +37,26 @@ class BridgeService {
     return this
       .fetch("https://www.meethue.com/api/nupnp")
       .then(jsonHandler)
-      .then(bridges => {
-        this.bridges = bridges;
-        this._store();
-        return bridges;
-      });
+      .then(bridges =>
+        Promise
+          .all(bridges.map(this.fetchBridgeConfig.bind(this)))
+          .then(bridges => {
+            this.bridges = bridges;
+            this._store();
+            return bridges;
+          })
+      );
+  }
+
+  fetchBridgeConfig(bridge) {
+    return this
+      .fetch(`http://${bridge.internalipaddress}/api/config`)
+      .then(jsonHandler)
+      .then(config =>
+        Object.assign(bridge, {
+          ...config,
+        })
+      );
   }
 
   authenticateBridge(bridgeId) {

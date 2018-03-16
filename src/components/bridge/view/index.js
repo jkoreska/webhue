@@ -9,24 +9,32 @@ import {
 import "./index.scss";
 
 const BridgeView = ({
-  bridge,
+  bridge = {},
   authenticateBridge,
 }) => (
   <div className="BridgeView">
-    {bridge.id}
-    &nbsp;
-    <span className="icon is-small">
-      <i className={`fa fa-${bridge.user ? "unlock" : "lock"}`}></i>
-    </span>
+    <h2 className="title">
+      {bridge.name || bridge.id}
+    </h2>
+    <h3 className="subtitle">
+      <span className="icon is-small">
+        <i className={`fa fa-${bridge.user ? "unlock" : "lock"}`}></i>
+      </span>
+      &nbsp;
+      {bridge.user ? "authenticated" : "not authenticated"}
+    </h3>
+
     {!bridge.user &&
-      <button
-        className={`button ${bridge.authenticating ? "is-loading" : ""}`}
-        onClick={e => authenticateBridge(bridge.id)}
-        >
-        Authenticate
-      </button>
+      <form className="form">
+        <button
+          className={`button ${bridge.authenticating ? "is-loading" : ""}`}
+          onClick={e => authenticateBridge(bridge.id)}
+          >
+          Authenticate
+        </button>
+        {bridge.error && <span className="tag is-danger">{bridge.error}</span>}
+      </form>
     }
-    {bridge.error && <span className="tag is-danger">{bridge.error}</span>}
   </div>
 );
 

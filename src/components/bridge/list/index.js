@@ -13,13 +13,21 @@ const BridgeList = ({
   onSelect,
 }) => (
   <div className="BridgeList">
-    <table className="table is-hoverable">
+    <table className="table is-hoverable is-fullwidth">
+      <thead>
+        <tr>
+          <th colspan="2">
+            Bridges
+          </th>
+        </tr>
+      </thead>
       <tbody>
       {bridges.map(bridge =>
         <tr key={bridge.id} onClick={e => onSelect && onSelect(bridge)}>
+          <td width="100%">
+            {bridge.name || bridge.id}
+          </td>
           <td>
-            {bridge.id}
-            &nbsp;
             <span className="icon is-small">
               <i className={`fa fa-${bridge.user ? "unlock" : "lock"}`}></i>
             </span>

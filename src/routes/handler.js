@@ -15,6 +15,7 @@ class RouteHandler extends React.Component {
   componentWillMount() {
     this.props.setConfig();
     this.props.getBridges();
+    this.bridgeRoute(this.props);
   }
 
   componentWillReceiveProps(props) {
