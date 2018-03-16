@@ -27,15 +27,18 @@ const authenticateBridge = bridgeId => (dispatch, getState, services) => {
   });
   return services.bridgeService
     .authenticateBridge(bridgeId)
-    .then(user => dispatch({
-      type: types.BRIDGE_AUTHENTICATED,
-      meta: {
-        bridgeId,
-      },
-      payload: {
-        user,
-      },
-    }))
+    .then(user => {
+      dispatch({
+        type: types.BRIDGE_AUTHENTICATED,
+        meta: {
+          bridgeId,
+        },
+        payload: {
+          user,
+        },
+      });
+      dispatch(getLights(bridgeId));
+    })
     .catch(e => dispatch({
       type: types.BRIDGE_AUTHENTICATED,
       meta: {
@@ -47,8 +50,27 @@ const authenticateBridge = bridgeId => (dispatch, getState, services) => {
     }));
 };
 
+const getLights = bridgeId => (dispatch, getState, services) => {
+  dispatch({
+    type: types.LIGHTS_LOADING,
+    meta: {
+      bridgeId,
+    },
+  });
+  return services.bridgeService
+    .getLights(bridgeId)
+    .then(lights => dispatch({
+      type: types.LIGHTS_LOADED,
+      meta: {
+        bridgeId,
+      },
+      payload: lights,
+    }));
+};
+
 export default {
   getBridges,
   selectBridge,
   authenticateBridge,
+  getLights,
 };

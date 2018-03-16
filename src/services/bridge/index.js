@@ -102,7 +102,11 @@ class BridgeService {
       });
   }
 
-  fetchLights(bridgeId) {
+  getLights(bridgeId) {
+    return this._fetchLights(bridgeId);
+  }
+
+  _fetchLights(bridgeId) {
     const bridge =
       this.bridges.find(bridge => bridge.id === bridgeId);
     if (!bridge)
@@ -114,8 +118,9 @@ class BridgeService {
       .fetch(`http://${bridge.internalipaddress}/api/${bridge.user.username}/lights`)
       .then(jsonHandler)
       .then(lights => {
-        bridge.lights = lights;
+        bridge.lights = Object.values(lights);
         this._store();
+        return bridge.lights;
       });
   }
 

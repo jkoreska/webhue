@@ -6,6 +6,8 @@ import {
   selectors as bridgeSelectors,
 } from "store/bridge";
 
+import LightList from "components/light/list";
+
 import "./index.scss";
 
 const BridgeView = ({
@@ -35,6 +37,9 @@ const BridgeView = ({
         {bridge.error && <span className="tag is-danger">{bridge.error}</span>}
       </section>
     }
+
+    <LightList />
+
   </div>
 );
 

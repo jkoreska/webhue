@@ -24,8 +24,14 @@ const selected = createSelector(
   (bridges, id) => bridges.find(bridge => bridge && bridge.id === id)
 );
 
+const lights = createSelector(
+  selected,
+  bridge => bridge && bridge.lights
+);
+
 export default {
   bridges,
   isLoading,
   selected,
+  lights,
 };
