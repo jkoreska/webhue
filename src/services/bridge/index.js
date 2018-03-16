@@ -11,6 +11,7 @@ class BridgeService {
 
   static _storageKeys = [
     "bridges",
+    "users",
   ];
 
   _store() {
@@ -28,18 +29,37 @@ class BridgeService {
   }
 
   getBridges(force = false) {
-    return this.bridges && !force
-      ? new Promise(resolve => resolve(this.bridges))
-      : this.fetchBridges();
+    return (
+      this.bridges && !force
+        ? new Promise(resolve => resolve(this.bridges))
+        : this._fetchBridges()
+      )
+      .then(this._mapUsersToBridges.bind(this));
   }
 
-  fetchBridges() {
+  getUsers() {
+    return this.users
+      ? this.users
+      : this.users = [];
+  }
+
+  _mapUsersToBridges(bridges) {
+    return bridges.map(bridge => {
+      const user =
+        this.getUsers().find(user => user.bridgeId === bridge.id);
+      if (user)
+        bridge.user = user;
+      return bridge;
+    });
+  }
+
+  _fetchBridges() {
     return this
       .fetch("https://www.meethue.com/api/nupnp")
       .then(jsonHandler)
       .then(bridges =>
         Promise
-          .all(bridges.map(this.fetchBridgeConfig.bind(this)))
+          .all(bridges.map(this._fetchBridgeConfig.bind(this)))
           .then(bridges => {
             this.bridges = bridges;
             this._store();
@@ -48,15 +68,14 @@ class BridgeService {
       );
   }
 
-  fetchBridgeConfig(bridge) {
+  _fetchBridgeConfig(bridge) {
     return this
       .fetch(`http://${bridge.internalipaddress}/api/config`)
       .then(jsonHandler)
-      .then(config =>
-        Object.assign(bridge, {
-          ...config,
-        })
-      );
+      .then(config => ({
+        ...bridge,
+        ...config,
+      }));
   }
 
   authenticateBridge(bridgeId) {
@@ -75,9 +94,11 @@ class BridgeService {
         const status = items[0];
         if (status.error)
           throw new Error(status.error.description);
-        bridge.user = status.success;
+        const user = status.success;
+        user.bridgeId = bridgeId;
+        this.getUsers().push(user);
         this._store();
-        return bridge.user;
+        return user;
       });
   }
 
