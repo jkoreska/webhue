@@ -6,6 +6,12 @@ const bridges = ({
   },
 }) => bridges;
 
+const isLoading = ({
+  bridge: {
+    loading,
+  },
+}) => loading;
+
 const selectedId = ({
   bridge: {
     selectedId,
@@ -20,5 +26,6 @@ const selected = createSelector(
 
 export default {
   bridges,
+  isLoading,
   selected,
 };

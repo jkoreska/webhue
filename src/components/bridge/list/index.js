@@ -9,6 +9,8 @@ import {
 import "./index.scss";
 
 const BridgeList = ({
+  getBridges,
+  isLoading,
   bridges,
   onSelect,
 }) => (
@@ -16,8 +18,19 @@ const BridgeList = ({
     <table className="table is-hoverable is-fullwidth">
       <thead>
         <tr>
-          <th colspan="2">
+          <th>
             Bridges
+          </th>
+          <th>
+            <button
+              className={`button is-small ${isLoading ? "is-loading" : ""}`}
+              onClick={e => getBridges()}
+              title="force reload"
+              >
+              <span className="icon">
+                <i className="fa fa-refresh"></i>
+              </span>
+            </button>
           </th>
         </tr>
       </thead>
@@ -40,8 +53,13 @@ const BridgeList = ({
 );
 
 const mapState = state => ({
+  isLoading: bridgeSelectors.isLoading(state),
   bridges: bridgeSelectors.bridges(state),
   selected: bridgeSelectors.selected(state),
 });
 
-export default connect(mapState)(BridgeList);
+const mapDispatch = dispatch => ({
+  getBridges: () => dispatch(bridgeActions.getBridges(true)),
+});
+
+export default connect(mapState, mapDispatch)(BridgeList);

@@ -27,8 +27,8 @@ class BridgeService {
       );
   }
 
-  getBridges() {
-    return this.bridges
+  getBridges(force = false) {
+    return this.bridges && !force
       ? new Promise(resolve => resolve(this.bridges))
       : this.fetchBridges();
   }

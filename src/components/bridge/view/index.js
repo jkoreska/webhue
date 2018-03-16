@@ -25,7 +25,7 @@ const BridgeView = ({
     </h3>
 
     {!bridge.user &&
-      <form className="form">
+      <section>
         <button
           className={`button ${bridge.authenticating ? "is-loading" : ""}`}
           onClick={e => authenticateBridge(bridge.id)}
@@ -33,7 +33,7 @@ const BridgeView = ({
           Authenticate
         </button>
         {bridge.error && <span className="tag is-danger">{bridge.error}</span>}
-      </form>
+      </section>
     }
   </div>
 );

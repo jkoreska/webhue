@@ -1,12 +1,12 @@
 
 import types from "./types";
 
-const getBridges = () => (dispatch, getState, services) => {
+const getBridges = force => (dispatch, getState, services) => {
   dispatch({
     type: types.BRIDGES_LOADING,
   });
   return services.bridgeService
-    .getBridges()
+    .getBridges(force)
     .then(bridges => dispatch({
       type: types.BRIDGES_LOADED,
       payload: bridges,
