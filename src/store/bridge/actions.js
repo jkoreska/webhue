@@ -68,9 +68,30 @@ const getLights = bridgeId => (dispatch, getState, services) => {
     }));
 };
 
+const updateLight = (bridgeId, lightId, data) => (dispatch, getState, services) => {
+  dispatch({
+    type: types.LIGHT_UPDATING,
+    meta: {
+      bridgeId,
+      lightId,
+    },
+  });
+  return services.bridgeService
+    .updateLight(bridgeId, lightId, data)
+    .then(light => dispatch({
+      type: types.LIGHT_UPDATED,
+      meta: {
+        bridgeId,
+        lightId,
+      },
+      payload: light,
+    }));
+};
+
 export default {
   getBridges,
   selectBridge,
   authenticateBridge,
   getLights,
+  updateLight,
 };

@@ -118,9 +118,43 @@ class BridgeService {
       .fetch(`http://${bridge.internalipaddress}/api/${bridge.user.username}/lights`)
       .then(jsonHandler)
       .then(lights => {
-        bridge.lights = Object.values(lights);
+        bridge.lights = Object
+          .keys(lights)
+          .map(id => ({
+            id,
+            ...lights[id],
+          }));
         this._store();
         return bridge.lights;
+      });
+  }
+
+  updateLight(bridgeId, lightId, state) {
+    const bridge =
+      this.bridges.find(bridge => bridge.id === bridgeId);
+    if (!bridge)
+      return new Promise(() => Promise.reject("Bridge not found"));
+    if (!bridge.user)
+      return new Promise(() => Promise.reject("Bridge not authenticated"));
+
+    return this
+      .fetch(`http://${bridge.internalipaddress}/api/${bridge.user.username}/lights/${lightId}/state`, {
+        method: "PUT",
+        body: JSON.stringify(state),
+      })
+      .then(jsonHandler)
+      .then(items => {
+        const status = items[0];
+        if (status.error)
+          throw new Error(status.error.description);
+        const light = bridge.lights
+          .find(light => light.id === lightId);
+        light.state = {
+          ...light.state,
+          ...state,
+        };
+        this._store();
+        return light;
       });
   }
 

@@ -61,6 +61,24 @@ const loadedLights = (state, action) => {
   return Object.assign({}, state, { bridges });
 };
 
+const updatingLight = (state, action) => state;
+
+const updatedLight = (state, action) => {
+  const bridges = state.bridges.map(bridge =>
+    action.meta.bridgeId == bridge.id
+      ? {
+          ...bridge,
+          lights: bridge.lights.map(light =>
+            light.id === action.meta.lightId
+              ? action.payload
+              : light
+          ),
+        }
+      : bridge
+  );
+  return Object.assign({}, state, { bridges });
+};
+
 export default (state, action) => {
   switch(action.type) {
     case types.BRIDGES_LOADING: return loadingBridges(state, action);
@@ -70,6 +88,8 @@ export default (state, action) => {
     case types.BRIDGE_AUTHENTICATED: return authenticatedBridge(state, action);
     case types.LIGHTS_LOADING: return loadingLights(state, action);
     case types.LIGHTS_LOADED: return loadedLights(state, action);
+    case types.LIGHT_UPDATING: return updatingLight(state, action);
+    case types.LIGHT_UPDATED: return updatedLight(state, action);
     default: return state || defaultState;
   }
 };
