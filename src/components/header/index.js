@@ -13,7 +13,7 @@ const HeaderView = ({
         <Link to="/" className="navbar-item">
           <img className="Header-logo" src="" />
           <h1 className="is-size-4">
-            Webhue
+            WebHue
           </h1>
         </Link>
         <div className={`navbar-burger burger ${activeClass}`} onClick={onMenuClick}>

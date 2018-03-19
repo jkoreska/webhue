@@ -18,10 +18,10 @@ const HomePage = ({
           <div className="columns is-mobile">
             <div className="column">
               <h1 className="title is-2">
-                Webhue
+                WebHue
               </h1>
               <h2 className="subtitle">
-                Philips HUE web client
+                Philips Hue web client
               </h2>
             </div>
             <div className="column is-one-quarter">

@@ -1,8 +1,8 @@
 {
-  "name": "Product",
+  "name": "WebHue",
   "version": "0.1.0",
   "description": "",
-  "repository": "https://github/user/product",
+  "repository": "https://github/jkoreska/webhue",
   "author": "Justin Koreska",
   "license": "MIT",
   "dependencies": {
